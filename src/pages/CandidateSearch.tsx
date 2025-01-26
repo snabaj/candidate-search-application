@@ -98,7 +98,7 @@ const CandidateSearch = () => {
           <h2>@{currentCandidate.username}</h2>
           <p><strong>Company:</strong> {currentCandidate.company}</p>
           <p><strong>Location:</strong> {currentCandidate.location}</p>
-          <p><strong>Email:</strong> {currentCandidate.email}</p>
+          <p><strong>Email:</strong> <span style={{ color: 'blue' }}>{currentCandidate.email}</span> </p>
           <p><strong>Bio:</strong> {currentCandidate.bio}</p>
           <div className="card-actions">
 
