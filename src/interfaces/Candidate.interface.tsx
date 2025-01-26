@@ -9,9 +9,3 @@ export interface Candidate {
   bio: string;
   rejected: boolean;
 }
-export interface CandidateSearchProps {
-  candidates: Candidate[];
-}
-export interface CandidateSearchState {
-  candidates: Candidate[];
-}
