@@ -1,32 +1,55 @@
 import { useState, useEffect } from 'react';
-//import { searchGithub, searchGithubUser } from '../api/API';
-import { searchGithub } from '../api/API';
+import { searchGithub, searchGithubUser } from '../api/API';
 import { Candidate } from '../interfaces/Candidate.interface';
 
 const CandidateSearch = () => {
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [currentCandidate, setCurrentCandidate] = useState<Candidate | null>(null);
   const [savedCandidates, setSavedCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [candidatesList, setCandidatesList] = useState<string[]>([]);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   useEffect(() => {
     const storedCandidates = JSON.parse(localStorage.getItem('savedCandidates') || '[]');
     setSavedCandidates(storedCandidates);
-    fetchCandidates();
+    fetchInitialCandidates();
   }, []);
 
-  const fetchCandidates = async () => {
+  const fetchInitialCandidates = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await searchGithub();
-      if (data.length === 0) {
-        setError('No more candidates available.');
+      const users = await searchGithub();
+      if (!users || users.length === 0) {
+        setError('No candidates found.');
         return;
       }
 
-      setCandidates(data.map((user: any) => ({
+      // Extract usernames from API response
+      const usernames = users.map((user: any) => user.login);
+      setCandidatesList(usernames);
+
+      fetchCandidate(usernames[0]); // Load first candidate immediately
+    } catch (err) {
+      setError('Failed to fetch candidates.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchCandidate = async (username: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const user = await searchGithubUser(username);
+      if (!user || Object.keys(user).length === 0) {
+        setError('Candidate data not available.');
+        setCurrentCandidate(null);
+        return;
+      }
+
+      setCurrentCandidate({
         avatar_url: user.avatar_url,
         name: user.name || user.login,
         username: user.login,
@@ -34,12 +57,9 @@ const CandidateSearch = () => {
         location: user.location || 'Unknown',
         email: user.email || 'Not available',
         html_url: user.html_url,
-        rejected: false,
-      })));
-
-      setCurrentCandidate(data[0]); // Display first candidate initially
+      });
     } catch (err) {
-      setError('Failed to fetch candidates.');
+      setError('Error fetching candidate data.');
     } finally {
       setLoading(false);
     }
@@ -55,9 +75,10 @@ const CandidateSearch = () => {
   };
 
   const nextCandidate = () => {
-    if (candidates.length > 1) {
-      setCandidates(candidates.slice(1));
-      setCurrentCandidate(candidates[1]);
+    if (currentIndex < candidatesList.length - 1) {
+      const nextIndex = currentIndex + 1;
+      setCurrentIndex(nextIndex);
+      fetchCandidate(candidatesList[nextIndex]);
     } else {
       setCurrentCandidate(null);
       setError('No more candidates available.');
@@ -67,7 +88,7 @@ const CandidateSearch = () => {
   return (
     <div>
       <h1>Candidate Search</h1>
-      {loading && <p>Loading candidates...</p>}
+      {loading && <p>Loading candidate...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {currentCandidate ? (
@@ -88,5 +109,6 @@ const CandidateSearch = () => {
     </div>
   );
 };
+
 
 export default CandidateSearch;
