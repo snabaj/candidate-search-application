@@ -3,7 +3,7 @@ import { searchGithub, searchGithubUser } from '../api/API';
 
 const CandidateSearch = () => {
   return (
-  <h1>CandidateSearch</h1>
+  <h1>Candidate Search</h1>
   
   );
 };
