@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { searchGithub, searchGithubUser } from '../api/API';
 import { Candidate } from '../interfaces/Candidate.interface';
-import '../styles/app.css';
 
 
 const CandidateSearch = () => {
@@ -102,6 +101,7 @@ const CandidateSearch = () => {
           <p><strong>Email:</strong> {currentCandidate.email}</p>
           <p><strong>Bio:</strong> {currentCandidate.bio}</p>
           <div className="card-actions">
+
           <button 
   onClick={saveCandidate} 
   style={{ backgroundColor: 'green' }}
@@ -114,6 +114,7 @@ const CandidateSearch = () => {
 >
   ➖ Skip Candidate
 </button>
+
           </div>
         </div>
       ) : (

@@ -6,5 +6,5 @@ export interface Candidate {
   company: string;
   location: string;
   email: string;
- bio: string;
+  bio: string;
 }
