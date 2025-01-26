@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Candidate } from "../interfaces/Candidate.interface";
+import "../styles/app.css";
 
 const SavedCandidates = () => {
   const [savedCandidates, setSavedCandidates] = useState<Candidate[]>([]);
@@ -20,13 +21,13 @@ const SavedCandidates = () => {
           {/* Display saved candidates in table format */}
           <thead>
             <tr>
-              <th>Avatar</th>
+              <th>Image</th>
               <th>Name</th>
-              <th>Username</th>
               <th>Company</th>
               <th>Location</th>
               <th>Email</th>
-              <th>Profile</th>
+              <th>Bio</th>
+              <th>Reject</th>
             </tr>
           </thead>
           <tbody>
@@ -36,11 +37,13 @@ const SavedCandidates = () => {
                   <img src={candidate.avatar_url} alt={candidate.name} width="50" />
                 </td>
                 <td>{candidate.name}</td>
-                <td>@{candidate.username}</td>
                 <td>{candidate.company}</td>
                 <td>{candidate.location}</td>
                 <td>{candidate.email}</td>
-                <td><a href={candidate.html_url} target="_blank">GitHub</a></td>
+                <td>{candidate.bio}</td>
+                <td>
+                  <button>Reject</button>
+                </td>
               </tr>
             ))}
           </tbody>

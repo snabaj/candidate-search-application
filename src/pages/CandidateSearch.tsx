@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { searchGithub, searchGithubUser } from '../api/API';
 import { Candidate } from '../interfaces/Candidate.interface';
+import '../styles/app.css';
 
 
 const CandidateSearch = () => {
@@ -52,12 +53,11 @@ const CandidateSearch = () => {
 
       setCurrentCandidate({
         avatar_url: user.avatar_url,
-        name: user.name || user.login,
         username: user.login,
         company: user.company || 'N/A',
         location: user.location || 'Unknown',
         email: user.email || 'Not available',
-        html_url: user.html_url,
+        bio: user.bio || 'No bio available',
       });
     } catch (err) {
       setError('Error fetching candidate data.');
@@ -95,15 +95,25 @@ const CandidateSearch = () => {
       {currentCandidate ? (
         <div className="candidate-card"> 
           {/* Display candidate info in card format */}
-          <img src={currentCandidate.avatar_url} alt={currentCandidate.name} />
-          <h2>{currentCandidate.name} (@{currentCandidate.username})</h2>
+          <img src={currentCandidate.avatar_url} alt={currentCandidate.username} />
+          <h2>@{currentCandidate.username}</h2>
           <p><strong>Company:</strong> {currentCandidate.company}</p>
           <p><strong>Location:</strong> {currentCandidate.location}</p>
           <p><strong>Email:</strong> {currentCandidate.email}</p>
-          <a href={currentCandidate.html_url} target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+          <p><strong>Bio:</strong> {currentCandidate.bio}</p>
           <div className="card-actions">
-            <button onClick={saveCandidate}>➕ Save Candidate</button>
-            <button onClick={nextCandidate}>➖ Skip Candidate</button>
+          <button 
+  onClick={saveCandidate} 
+  style={{ backgroundColor: 'green' }}
+>
+  ➕ Save Candidate
+</button>
+<button 
+  onClick={nextCandidate} 
+  style={{ backgroundColor: 'red' }}
+>
+  ➖ Skip Candidate
+</button>
           </div>
         </div>
       ) : (
