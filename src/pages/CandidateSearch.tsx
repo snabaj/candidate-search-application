@@ -92,16 +92,18 @@ const CandidateSearch = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {currentCandidate ? (
-        <div>
-          <img src={currentCandidate.avatar_url} alt={currentCandidate.name} width="100" />
+        <div className="candidate-card"> 
+          {/* Display candidate info in card format */}
+          <img src={currentCandidate.avatar_url} alt={currentCandidate.name} />
           <h2>{currentCandidate.name} (@{currentCandidate.username})</h2>
-          <p>Company: {currentCandidate.company}</p>
-          <p>Location: {currentCandidate.location}</p>
-          <p>Email: {currentCandidate.email}</p>
-          <a href={currentCandidate.html_url} target="_blank">GitHub Profile</a>
-          <br />
-          <button onClick={saveCandidate}>➕ Save Candidate</button>
-          <button onClick={nextCandidate}>➖ Skip Candidate</button>
+          <p><strong>Company:</strong> {currentCandidate.company}</p>
+          <p><strong>Location:</strong> {currentCandidate.location}</p>
+          <p><strong>Email:</strong> {currentCandidate.email}</p>
+          <a href={currentCandidate.html_url} target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+          <div className="card-actions">
+            <button onClick={saveCandidate}>➕ Save Candidate</button>
+            <button onClick={nextCandidate}>➖ Skip Candidate</button>
+          </div>
         </div>
       ) : (
         <p>No more candidates to review.</p>
@@ -109,6 +111,5 @@ const CandidateSearch = () => {
     </div>
   );
 };
-
 
 export default CandidateSearch;
