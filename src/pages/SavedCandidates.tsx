@@ -23,7 +23,7 @@ const handleRejectCandidate = (index: number) => {
       {savedCandidates.length === 0 ? (
         <p>No candidates have been accepted yet.</p>
       ) : (
-        <table className="candidate-table">  
+        <table>  
           {/* Display saved candidates in table format */}
           <thead>
             <tr>

@@ -92,7 +92,7 @@ const CandidateSearch = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {currentCandidate ? (
-        <div className="candidate-card"> 
+        <div> 
           {/* Display candidate info in card format */}
           <img src={currentCandidate.avatar_url} alt={currentCandidate.username} />
           <h2>@{currentCandidate.username}</h2>
@@ -100,7 +100,7 @@ const CandidateSearch = () => {
           <p><strong>Location:</strong> {currentCandidate.location}</p>
           <p><strong>Email:</strong> <span style={{ color: 'blue' }}>{currentCandidate.email}</span> </p>
           <p><strong>Bio:</strong> {currentCandidate.bio}</p>
-          <div className="card-actions">
+          <div>
 
           <button 
   onClick={saveCandidate} 
