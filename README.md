@@ -22,7 +22,11 @@ Install dependencies (npm install)
 
 The user starts the application by using the command “npm run dev”. The page loads a new candidate every time it refreshes and every time the user saves or skips a candidate. Recruiters can browse and manage potential candidates by searching GitHub profiles and viewing essential candidate details. In the "potential candidates" section, users can access a comprehensive list of previously saved profiles presented in a structured table format, making it easy to compare candidates. The system ensures persistence by storing saved profiles in the browser’s local storage, allowing users to revisit their selections even after refreshing the page. Users are also able to delete saved profiles of candidates they are no longer interested in.
 
-Below is a video link showcasing the application’s performance.
+## Below are screenshot images of the application and its functionalities.
+![Home page](<src/assets/Screenshot 2025-02-15 at 6.38.48 PM.png>)
+![Potential Candidates page](<src/assets/Screenshot 2025-02-15 at 6.44.09 PM.png>)
+
+## Below is a video link showcasing the application’s performance.
 https://drive.google.com/file/d/17Yh28aXNQexJ3wNE8hTvrslyZjtvHZFb/view
 
 ## License
