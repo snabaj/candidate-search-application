@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
-import { searchGithub, searchGithubUser } from '../api/API';
-import { Candidate } from '../interfaces/Candidate.interface';
-
+import { useState, useEffect } from "react";
+import { searchGithub, searchGithubUser } from "../api/API";
+import { Candidate } from "../interfaces/Candidate.interface";
 
 const CandidateSearch = () => {
-  const [currentCandidate, setCurrentCandidate] = useState<Candidate | null>(null);
+  const [currentCandidate, setCurrentCandidate] = useState<Candidate | null>(
+    null
+  );
   const [savedCandidates, setSavedCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -12,7 +13,9 @@ const CandidateSearch = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   useEffect(() => {
-    const storedCandidates = JSON.parse(localStorage.getItem('savedCandidates') || '[]');
+    const storedCandidates = JSON.parse(
+      localStorage.getItem("savedCandidates") || "[]"
+    );
     setSavedCandidates(storedCandidates);
     fetchInitialCandidates();
   }, []);
@@ -23,7 +26,7 @@ const CandidateSearch = () => {
     try {
       const users = await searchGithub();
       if (!users || users.length === 0) {
-        setError('No candidates found.');
+        setError("No candidates found.");
         return;
       }
 
@@ -33,7 +36,7 @@ const CandidateSearch = () => {
 
       fetchCandidate(usernames[0]); // Load first candidate immediately
     } catch (err) {
-      setError('Failed to fetch candidates.');
+      setError("Failed to fetch candidates.");
     } finally {
       setLoading(false);
     }
@@ -45,7 +48,7 @@ const CandidateSearch = () => {
     try {
       const user = await searchGithubUser(username);
       if (!user || Object.keys(user).length === 0) {
-        setError('Candidate data not available.');
+        setError("Candidate data not available.");
         setCurrentCandidate(null);
         return;
       }
@@ -53,13 +56,13 @@ const CandidateSearch = () => {
       setCurrentCandidate({
         avatar_url: user.avatar_url,
         username: user.login,
-        company: user.company || 'N/A',
-        location: user.location || 'Unknown',
-        email: user.email || 'Not available',
-        bio: user.bio || 'No bio available',
+        company: user.company || "N/A",
+        location: user.location || "Unknown",
+        email: user.email || "Not available",
+        bio: user.bio || "No bio available",
       });
     } catch (err) {
-      setError('Error fetching candidate data.');
+      setError("Error fetching candidate data.");
     } finally {
       setLoading(false);
     }
@@ -69,7 +72,10 @@ const CandidateSearch = () => {
     if (currentCandidate) {
       const updatedSavedCandidates = [...savedCandidates, currentCandidate];
       setSavedCandidates(updatedSavedCandidates);
-      localStorage.setItem('savedCandidates', JSON.stringify(updatedSavedCandidates));
+      localStorage.setItem(
+        "savedCandidates",
+        JSON.stringify(updatedSavedCandidates)
+      );
       nextCandidate();
     }
   };
@@ -81,7 +87,7 @@ const CandidateSearch = () => {
       fetchCandidate(candidatesList[nextIndex]);
     } else {
       setCurrentCandidate(null);
-      setError('No more candidates available.');
+      setError("No more candidates available.");
     }
   };
 
@@ -89,32 +95,39 @@ const CandidateSearch = () => {
     <div>
       <h1>Candidate Search</h1>
       {loading && <p>Loading candidate...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       {currentCandidate ? (
-        <div> 
+        <div>
           {/* Display candidate info in card format */}
-          <img src={currentCandidate.avatar_url} alt={currentCandidate.username} />
+          <img
+            src={currentCandidate.avatar_url}
+            alt={currentCandidate.username}
+          />
           <h2>@{currentCandidate.username}</h2>
-          <p><strong>Company:</strong> {currentCandidate.company}</p>
-          <p><strong>Location:</strong> {currentCandidate.location}</p>
-          <p><strong>Email:</strong> <span style={{ color: 'blue' }}>{currentCandidate.email}</span> </p>
-          <p><strong>Bio:</strong> {currentCandidate.bio}</p>
+          <p>
+            <strong>Company:</strong> {currentCandidate.company}
+          </p>
+          <p>
+            <strong>Location:</strong> {currentCandidate.location}
+          </p>
+          <p>
+            <strong>Email:</strong>{" "}
+            <span style={{ color: "blue" }}>{currentCandidate.email}</span>{" "}
+          </p>
+          <p>
+            <strong>Bio:</strong> {currentCandidate.bio}
+          </p>
           <div>
-
-          <button 
-  onClick={saveCandidate} 
-  style={{ backgroundColor: 'green' }}
->
-  ➕ Save Candidate
-</button>
-<button 
-  onClick={nextCandidate} 
-  style={{ backgroundColor: 'red' }}
->
-  ➖ Skip Candidate
-</button>
-
+            <button
+              onClick={saveCandidate}
+              style={{ backgroundColor: "green" }}
+            >
+              ➕ Save Candidate
+            </button>
+            <button onClick={nextCandidate} style={{ backgroundColor: "red" }}>
+              ➖ Skip Candidate
+            </button>
           </div>
         </div>
       ) : (
